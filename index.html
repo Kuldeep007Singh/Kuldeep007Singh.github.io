@@ -1,0 +1,560 @@
+import React, { useState, useEffect } from 'react';
+import { Github, Linkedin, Mail, ExternalLink, Code2, Brain, Database, Zap, ChevronDown } from 'lucide-react';
+
+export default function Portfolio() {
+  const [activeTab, setActiveTab] = useState('projects');
+  const [expandedProject, setExpandedProject] = useState(0);
+  const [codePattern, setCodePattern] = useState('');
+
+  useEffect(() => {
+    // Generate random binary/code pattern
+    const generatePattern = () => {
+      const chars = '01 ';
+      let pattern = '';
+      for (let i = 0; i < 5000; i++) {
+        pattern += chars[Math.floor(Math.random() * chars.length)];
+      }
+      setCodePattern(pattern);
+    };
+    generatePattern();
+  }, []);
+
+  const projects = [
+    {
+      title: 'DebateRAG',
+      tagline: 'Multi-agent LLM system with retrieval-augmented debate',
+      description: 'Production-grade debate system where LLaMA 3.3 70B agents argue opposing positions using hybrid retrieval (BM25 + semantic search), cross-encoder re-ranking, and LLM query rewriting. Judge agent evaluates arguments with confidence scores. Implements Redis caching for 300x speedup on repeat topics, async FastAPI backend, and real-time streaming Streamlit UI. Full ArXiv paper retrieval with semantic chunking and Wikipedia fallback.',
+      stats: [
+        { label: 'LLM Model', value: 'LLaMA 3.3 70B' },
+        { label: 'API Latency', value: '100-200ms' },
+        { label: 'Cache Speedup', value: '300x' }
+      ],
+      tech: ['LangGraph', 'Hybrid RAG', 'ChromaDB', 'BM25', 'BGE Embeddings', 'Cross-encoder', 'Redis', 'FastAPI', 'Streamlit', 'ArXiv API', 'Async'],
+      highlight: 'Full production pipeline end-to-end',
+      github: 'https://github.com/Kuldeep007Singh/DebateRAG'
+    },
+    {
+      title: 'Legal Document Classifier',
+      tagline: 'Fine-tuned Legal-BERT for 7-class document classification',
+      description: 'Legal-BERT fine-tuned on 35,000+ balanced samples across 7 LexGLUE datasets (SCOTUS rulings, EU regulations, contract clauses, human rights cases, terms of service). Achieves 85.03% accuracy and 84.66% macro F1. Handles domain-specific legal terminology with per-class F1 scores of 98-100% (5/7 classes). Deployed with Streamlit UI, FastAPI backend, production inference script, and Docker containerization. Resolves legal document type ambiguity as first step in specialized legal NLP pipelines.',
+      stats: [
+        { label: 'Test Accuracy', value: '85.03%' },
+        { label: 'Macro F1', value: '84.66%' },
+        { label: 'Training Data', value: '35K samples' }
+      ],
+      tech: ['Legal-BERT', 'HuggingFace', 'PyTorch', 'scikit-learn', 'MLflow', 'Streamlit', 'FastAPI', 'Docker'],
+      highlight: '7 datasets, 5/7 classes at 98-100% F1',
+      github: 'https://github.com/Kuldeep007Singh'
+    },
+    {
+      title: 'AI Resume Analyzer',
+      tagline: 'Semantic resume-to-JD matching with FAISS',
+      description: 'Deployed on Hugging Face Spaces with Docker containerization. Uses Sentence Transformers for semantic embeddings and FAISS for efficient similarity search. Implements 5-factor weighted scoring formula to match resumes against job descriptions. Live, production-ready inference endpoint.',
+      stats: [
+        { label: 'Deployment', value: 'HF Spaces' },
+        { label: 'Search', value: 'FAISS' },
+        { label: 'Framework', value: 'Streamlit' }
+      ],
+      tech: ['Sentence Transformers', 'FAISS', 'Docker', 'HuggingFace', 'Streamlit'],
+      highlight: 'Live deployment, containerized',
+      github: 'https://github.com/Kuldeep007Singh'
+    }
+  ];
+
+  const skillCategories = [
+    {
+      category: 'GenAI & LLMs',
+      icon: Brain,
+      items: ['LLMs (LLaMA, GPT)', 'RAG & Hybrid Retrieval', 'Multi-agent Systems', 'LangGraph', 'Prompt Engineering']
+    },
+    {
+      category: 'ML Engineering',
+      icon: Zap,
+      items: ['Fine-tuning Transformers', 'BERT & Legal-BERT', 'Transfer Learning', 'MLOps (MLflow)', 'Model Versioning']
+    },
+    {
+      category: 'Data & Search',
+      icon: Database,
+      items: ['ChromaDB & Vector DBs', 'FAISS', 'BM25 Retrieval', 'SQL', 'Data Pipelines']
+    },
+    {
+      category: 'Production Systems',
+      icon: Code2,
+      items: ['FastAPI', 'LangGraph', 'Streamlit', 'Docker', 'Redis Caching', 'Async Python']
+    }
+  ];
+
+  return (
+    <div style={{
+      background: '#000000',
+      minHeight: '100vh',
+      color: '#ffffff',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", monospace',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Animated Code Background */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        opacity: 0.03,
+        pointerEvents: 'none',
+        fontSize: '11px',
+        lineHeight: '1.4',
+        color: '#00ff00',
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word',
+        overflow: 'hidden',
+        fontFamily: '"Courier New", monospace'
+      }}>
+        {codePattern}
+      </div>
+
+      {/* Content Wrapper */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {/* Hero Section */}
+        <header style={{
+          padding: '5rem 2rem 3rem',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(10px)',
+          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%)'
+        }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ marginBottom: '2rem' }}>
+              <h1 style={{
+                fontSize: '56px',
+                fontWeight: 700,
+                marginBottom: '0.5rem',
+                letterSpacing: '-2px',
+                color: '#ffffff'
+              }}>
+                Kuldeep Singh
+              </h1>
+              <p style={{
+                fontSize: '18px',
+                color: '#e0e0e0',
+                marginBottom: '0.5rem',
+                fontWeight: 400
+              }}>
+                AI/ML Engineer • GenAI Specialist • Production ML Systems
+              </p>
+              <p style={{
+                fontSize: '13px',
+                color: '#888888',
+                letterSpacing: '0.5px'
+              }}>
+                2025 MCA, University of Rajasthan • 6 months ML internship • Building production-grade AI systems
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+              {['LLMs & RAG', 'Multi-agent Systems', 'Fine-tuning', 'Production MLOps'].map(tag => (
+                <span key={tag} style={{
+                  padding: '0.5rem 1rem',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '2px',
+                  fontSize: '12px',
+                  color: '#ffffff',
+                  fontWeight: 500,
+                  letterSpacing: '0.5px'
+                }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <a href="https://github.com/Kuldeep007Singh" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                transition: 'color 0.3s',
+                cursor: 'pointer'
+              }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
+                <Github size={18} /> GitHub
+              </a>
+              <a href="#" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                transition: 'color 0.3s',
+                cursor: 'pointer'
+              }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
+                <Linkedin size={18} /> LinkedIn
+              </a>
+              <a href="mailto:your-email@example.com" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                transition: 'color 0.3s',
+                cursor: 'pointer'
+              }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
+                <Mail size={18} /> Email
+              </a>
+            </div>
+          </div>
+        </header>
+
+        {/* Navigation Tabs */}
+        <nav style={{
+          background: 'rgba(0, 0, 0, 0.8)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(10px)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 20
+        }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'flex', gap: '3rem' }}>
+            {['projects', 'skills', 'experience', 'about'].map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: activeTab === tab ? '2px solid #ffffff' : '2px solid transparent',
+                  padding: '1rem 0',
+                  fontSize: '13px',
+                  fontWeight: activeTab === tab ? 600 : 400,
+                  color: activeTab === tab ? '#ffffff' : '#666666',
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  transition: 'all 0.3s',
+                  textDecoration: 'none'
+                }}
+                onMouseEnter={(e) => !activeTab === tab && (e.target.style.color = '#ffffff')}
+                onMouseLeave={(e) => !activeTab === tab && (e.target.style.color = '#666666')}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        {/* Main Content */}
+        <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 2rem' }}>
+          {activeTab === 'projects' && (
+            <div>
+              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-1px' }}>
+                Featured Projects
+              </h2>
+              <p style={{ fontSize: '14px', color: '#888888', marginBottom: '2.5rem', letterSpacing: '0.5px' }}>
+                PRODUCTION-READY SYSTEMS SHOWCASING GENAI, RAG, AND FULL-STACK ML ENGINEERING
+              </p>
+
+              <div style={{ display: 'grid', gap: '2rem' }}>
+                {projects.map((project, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => setExpandedProject(expandedProject === idx ? -1 : idx)}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderLeft: idx === 0 ? '3px solid rgba(0, 255, 0, 0.4)' : '3px solid rgba(255, 255, 255, 0.2)',
+                      borderRadius: '0px',
+                      padding: '2rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      transform: expandedProject === idx ? 'translateY(-2px)' : 'translateY(0)',
+                      boxShadow: expandedProject === idx ? '0 0 30px rgba(255, 255, 255, 0.05)' : 'none'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                          <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px', color: '#ffffff' }}>
+                            {project.title}
+                          </h3>
+                          {idx === 0 && <span style={{ fontSize: '11px', color: '#00ff00', fontWeight: 600, background: 'rgba(0, 255, 0, 0.1)', padding: '0.25rem 0.5rem', border: '1px solid rgba(0, 255, 0, 0.3)' }}>FLAGSHIP</span>}
+                        </div>
+                        <p style={{ fontSize: '13px', color: '#888888', margin: 0, letterSpacing: '0.5px' }}>
+                          {project.tagline.toUpperCase()}
+                        </p>
+                      </div>
+                      <div style={{
+                        fontSize: '20px',
+                        transition: 'transform 0.3s',
+                        transform: expandedProject === idx ? 'rotate(180deg)' : 'rotate(0)',
+                        color: '#666666'
+                      }}>
+                        ▼
+                      </div>
+                    </div>
+
+                    {expandedProject === idx && (
+                      <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                        <p style={{ fontSize: '14px', color: '#cccccc', lineHeight: '1.7', marginBottom: '1.5rem' }}>
+                          {project.description}
+                        </p>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+                          {project.stats.map((stat, i) => (
+                            <div key={i} style={{
+                              background: 'rgba(255, 255, 255, 0.03)',
+                              border: '1px solid rgba(255, 255, 255, 0.1)',
+                              padding: '1rem',
+                              borderRadius: '0px'
+                            }}>
+                              <div style={{ fontSize: '11px', color: '#666666', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                {stat.label}
+                              </div>
+                              <div style={{ fontSize: '15px', fontWeight: 600, color: '#00ff00' }}>
+                                {stat.value}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div style={{ marginBottom: '1.5rem' }}>
+                          <p style={{ fontSize: '11px', color: '#666666', margin: '0 0 0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>
+                            Tech Stack
+                          </p>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                            {project.tech.map((tech, i) => (
+                              <span key={i} style={{
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                color: '#ffffff',
+                                padding: '0.5rem 0.75rem',
+                                borderRadius: '0px',
+                                fontSize: '12px',
+                                fontWeight: 500,
+                                border: '1px solid rgba(255, 255, 255, 0.1)'
+                              }}>
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                          <div style={{
+                            padding: '0.75rem 1rem',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            borderRadius: '0px'
+                          }}>
+                            <p style={{ fontSize: '12px', color: '#ffffff', fontWeight: 500, margin: 0 }}>
+                              ✓ {project.highlight}
+                            </p>
+                          </div>
+                          <a href={project.github} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            fontSize: '12px',
+                            fontWeight: 600,
+                            transition: 'color 0.3s'
+                          }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
+                            VIEW GITHUB <ExternalLink size={14} />
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'skills' && (
+            <div>
+              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-1px' }}>
+                Technical Skills
+              </h2>
+              <p style={{ fontSize: '14px', color: '#888888', marginBottom: '2.5rem', letterSpacing: '0.5px' }}>
+                CORE COMPETENCIES ACROSS GENAI, ML ENGINEERING, AND PRODUCTION SYSTEMS
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                {skillCategories.map((skillGroup, idx) => {
+                  const Icon = skillGroup.icon;
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.02)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '0px',
+                        padding: '2rem',
+                        transition: 'all 0.3s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                        <Icon size={20} style={{ color: '#00ff00' }} />
+                        <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#ffffff', letterSpacing: '-0.5px' }}>
+                          {skillGroup.category}
+                        </h3>
+                      </div>
+                      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                        {skillGroup.items.map((item, i) => (
+                          <li key={i} style={{
+                            fontSize: '13px',
+                            color: '#cccccc',
+                            marginBottom: '0.75rem',
+                            paddingLeft: '1.5rem',
+                            position: 'relative',
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}>
+                            <span style={{ position: 'absolute', left: 0, color: '#666666', fontWeight: 700 }}>→</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'experience' && (
+            <div>
+              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-1px' }}>
+                Experience
+              </h2>
+              <p style={{ fontSize: '14px', color: '#888888', marginBottom: '2.5rem', letterSpacing: '0.5px' }}>
+                6 MONTHS OF HANDS-ON ML ENGINEERING IN PRODUCTION ENVIRONMENTS
+              </p>
+
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '0px',
+                padding: '2rem'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+                  <div>
+                    <h3 style={{ fontSize: '20px', fontWeight: 700, margin: '0 0 0.5rem', color: '#ffffff', letterSpacing: '-0.5px' }}>
+                      AI/ML Engineer Internship
+                    </h3>
+                    <p style={{ fontSize: '14px', color: '#888888', margin: 0, letterSpacing: '0.5px' }}>
+                      MAXGEN TECHNOLOGIES
+                    </p>
+                  </div>
+                  <span style={{
+                    fontSize: '12px',
+                    color: '#666666',
+                    fontWeight: 600,
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    letterSpacing: '0.5px',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    6 MONTHS
+                  </span>
+                </div>
+                <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                  {['Built and deployed ML models in production environments', 'Worked on GenAI and LLM-based solutions', 'Collaborated on end-to-end ML pipelines'].map((highlight, i) => (
+                    <li key={i} style={{
+                      fontSize: '13px',
+                      color: '#cccccc',
+                      marginBottom: '0.75rem',
+                      paddingLeft: '1.5rem',
+                      position: 'relative'
+                    }}>
+                      <span style={{ position: 'absolute', left: 0, color: '#666666', fontWeight: 700 }}>✓</span>
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'about' && (
+            <div>
+              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '2rem', letterSpacing: '-1px' }}>
+                About
+              </h2>
+
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '0px',
+                padding: '2rem',
+                marginBottom: '2rem'
+              }}>
+                <p style={{ fontSize: '14px', color: '#cccccc', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+                  I'm a fresher AI/ML engineer with a passion for building production systems that solve real problems. My background spans large language models, retrieval-augmented generation, multi-agent systems, and the full MLOps lifecycle. I've translated coursework into end-to-end deployed projects, with a particular focus on GenAI engineering and production-grade RAG systems.
+                </p>
+
+                <p style={{ fontSize: '14px', color: '#cccccc', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+                  I approach problems intuitively and value unfiltered feedback over reassurance—I learn best by building and shipping. Currently seeking roles as an AI/ML Engineer or GenAI Engineer at forward-thinking startups, scale-ups, and MNCs across India.
+                </p>
+
+                <p style={{ fontSize: '14px', color: '#888888', lineHeight: '1.8' }}>
+                  Outside of tech, I'm working on a fantasy novel exploring worldbuilding and narrative complexity—a hobby that sharpens my thinking around systems design and long-form structure.
+                </p>
+              </div>
+
+              <div style={{
+                padding: '1.5rem',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '0px',
+                borderLeft: '2px solid rgba(0, 255, 0, 0.3)'
+              }}>
+                <p style={{ fontSize: '13px', color: '#cccccc', margin: 0, lineHeight: '1.6', letterSpacing: '0.5px' }}>
+                  <strong>Currently preparing for:</strong> Infosys Off-Campus Drive assessments. Looking to land my first full-time role in GenAI and move fast on real-world problems.
+                </p>
+              </div>
+            </div>
+          )}
+        </main>
+
+        {/* Footer */}
+        <footer style={{
+          background: 'rgba(0, 0, 0, 0.8)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+          padding: '2rem',
+          textAlign: 'center',
+          marginTop: '4rem',
+          backdropFilter: 'blur(10px)'
+        }}>
+          <p style={{ fontSize: '12px', color: '#666666', margin: 0, letterSpacing: '0.5px' }}>
+            BASED IN AHMEDABAD, GUJARAT • OPEN TO OPPORTUNITIES ACROSS INDIA • 2025 MCA GRADUATE
+          </p>
+        </footer>
+      </div>
+    </div>
+  );
+}
