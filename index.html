@@ -1,563 +1,680 @@
-<!-- redeploy trigger -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuldeep Singh - AI/ML Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code2, Brain, Database, Zap, ChevronDown } from 'lucide-react';
+        body {
+            background: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+            overflow-x: hidden;
+        }
 
-export default function Portfolio() {
-  const [activeTab, setActiveTab] = useState('projects');
-  const [expandedProject, setExpandedProject] = useState(0);
-  const [codePattern, setCodePattern] = useState('');
+        .code-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #00ff00;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
 
-  useEffect(() => {
-    // Generate random binary/code pattern
-    const generatePattern = () => {
-      const chars = '01 ';
-      let pattern = '';
-      for (let i = 0; i < 5000; i++) {
-        pattern += chars[Math.floor(Math.random() * chars.length)];
-      }
-      setCodePattern(pattern);
-    };
-    generatePattern();
-  }, []);
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
 
-  const projects = [
-    {
-      title: 'DebateRAG',
-      tagline: 'Multi-agent LLM system with retrieval-augmented debate',
-      description: 'Production-grade debate system where LLaMA 3.3 70B agents argue opposing positions using hybrid retrieval (BM25 + semantic search), cross-encoder re-ranking, and LLM query rewriting. Judge agent evaluates arguments with confidence scores. Implements Redis caching for 300x speedup on repeat topics, async FastAPI backend, and real-time streaming Streamlit UI. Full ArXiv paper retrieval with semantic chunking and Wikipedia fallback.',
-      stats: [
-        { label: 'LLM Model', value: 'LLaMA 3.3 70B' },
-        { label: 'API Latency', value: '100-200ms' },
-        { label: 'Cache Speedup', value: '300x' }
-      ],
-      tech: ['LangGraph', 'Hybrid RAG', 'ChromaDB', 'BM25', 'BGE Embeddings', 'Cross-encoder', 'Redis', 'FastAPI', 'Streamlit', 'ArXiv API', 'Async'],
-      highlight: 'Full production pipeline end-to-end',
-      github: 'https://github.com/Kuldeep007Singh/DebateRAG'
-    },
-    {
-      title: 'Legal Document Classifier',
-      tagline: 'Fine-tuned Legal-BERT for 7-class document classification',
-      description: 'Legal-BERT fine-tuned on 35,000+ balanced samples across 7 LexGLUE datasets (SCOTUS rulings, EU regulations, contract clauses, human rights cases, terms of service). Achieves 85.03% accuracy and 84.66% macro F1. Handles domain-specific legal terminology with per-class F1 scores of 98-100% (5/7 classes). Deployed with Streamlit UI, FastAPI backend, production inference script, and Docker containerization. Resolves legal document type ambiguity as first step in specialized legal NLP pipelines.',
-      stats: [
-        { label: 'Test Accuracy', value: '85.03%' },
-        { label: 'Macro F1', value: '84.66%' },
-        { label: 'Training Data', value: '35K samples' }
-      ],
-      tech: ['Legal-BERT', 'HuggingFace', 'PyTorch', 'scikit-learn', 'MLflow', 'Streamlit', 'FastAPI', 'Docker'],
-      highlight: '7 datasets, 5/7 classes at 98-100% F1',
-      github: 'https://github.com/Kuldeep007Singh'
-    },
-    {
-      title: 'AI Resume Analyzer',
-      tagline: 'Semantic resume-to-JD matching with FAISS',
-      description: 'Deployed on Hugging Face Spaces with Docker containerization. Uses Sentence Transformers for semantic embeddings and FAISS for efficient similarity search. Implements 5-factor weighted scoring formula to match resumes against job descriptions. Live, production-ready inference endpoint.',
-      stats: [
-        { label: 'Deployment', value: 'HF Spaces' },
-        { label: 'Search', value: 'FAISS' },
-        { label: 'Framework', value: 'Streamlit' }
-      ],
-      tech: ['Sentence Transformers', 'FAISS', 'Docker', 'HuggingFace', 'Streamlit'],
-      highlight: 'Live deployment, containerized',
-      github: 'https://github.com/Kuldeep007Singh'
-    }
-  ];
+        header {
+            padding: 5rem 2rem 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+        }
 
-  const skillCategories = [
-    {
-      category: 'GenAI & LLMs',
-      icon: Brain,
-      items: ['LLMs (LLaMA, GPT)', 'RAG & Hybrid Retrieval', 'Multi-agent Systems', 'LangGraph', 'Prompt Engineering']
-    },
-    {
-      category: 'ML Engineering',
-      icon: Zap,
-      items: ['Fine-tuning Transformers', 'BERT & Legal-BERT', 'Transfer Learning', 'MLOps (MLflow)', 'Model Versioning']
-    },
-    {
-      category: 'Data & Search',
-      icon: Database,
-      items: ['ChromaDB & Vector DBs', 'FAISS', 'BM25 Retrieval', 'SQL', 'Data Pipelines']
-    },
-    {
-      category: 'Production Systems',
-      icon: Code2,
-      items: ['FastAPI', 'LangGraph', 'Streamlit', 'Docker', 'Redis Caching', 'Async Python']
-    }
-  ];
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-  return (
-    <div style={{
-      background: '#000000',
-      minHeight: '100vh',
-      color: '#ffffff',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", monospace',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Animated Code Background */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        opacity: 0.03,
-        pointerEvents: 'none',
-        fontSize: '11px',
-        lineHeight: '1.4',
-        color: '#00ff00',
-        whiteSpace: 'pre-wrap',
-        wordWrap: 'break-word',
-        overflow: 'hidden',
-        fontFamily: '"Courier New", monospace'
-      }}>
-        {codePattern}
-      </div>
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            color: #ffffff;
+        }
 
-      {/* Content Wrapper */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        {/* Hero Section */}
-        <header style={{
-          padding: '5rem 2rem 3rem',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%)'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ marginBottom: '2rem' }}>
-              <h1 style={{
-                fontSize: '56px',
-                fontWeight: 700,
-                marginBottom: '0.5rem',
-                letterSpacing: '-2px',
-                color: '#ffffff'
-              }}>
-                Kuldeep Singh
-              </h1>
-              <p style={{
-                fontSize: '18px',
-                color: '#e0e0e0',
-                marginBottom: '0.5rem',
-                fontWeight: 400
-              }}>
-                AI/ML Engineer • GenAI Specialist • Production ML Systems
-              </p>
-              <p style={{
-                fontSize: '13px',
-                color: '#888888',
-                letterSpacing: '0.5px'
-              }}>
-                2025 MCA, University of Rajasthan • 6 months ML internship • Building production-grade AI systems
-              </p>
+        .subtitle {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: #888888;
+            letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            font-size: 12px;
+            color: #ffffff;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .social-link:hover {
+            color: #00ff00;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 1rem 0;
+            font-size: 13px;
+            font-weight: 400;
+            color: #666666;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+        }
+
+        .nav-button.active {
+            font-weight: 600;
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .nav-button:hover:not(.active) {
+            color: #ffffff;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .section-desc {
+            font-size: 14px;
+            color: #888888;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 3px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .project-card.flagship {
+            border-left-color: rgba(0, 255, 0, 0.4);
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .flagship-badge {
+            font-size: 11px;
+            color: #00ff00;
+            font-weight: 600;
+            background: rgba(0, 255, 0, 0.1);
+            padding: 0.25rem 0.5rem;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .project-tagline {
+            font-size: 13px;
+            color: #888888;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .expand-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+            color: #666666;
+        }
+
+        .project-details {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .project-details.visible {
+            display: block;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #cccccc;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #00ff00;
+        }
+
+        .tech-label {
+            font-size: 11px;
+            color: #666666;
+            margin: 0 0 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .highlight-box {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight-text {
+            font-size: 12px;
+            color: #ffffff;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .github-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .github-link:hover {
+            color: #00ff00;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .skill-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .skill-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .skill-item {
+            font-size: 13px;
+            color: #cccccc;
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .skill-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #666666;
+            font-weight: 700;
+        }
+
+        .experience-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-text {
+            font-size: 14px;
+            color: #cccccc;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .callout-box {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 2px solid rgba(0, 255, 0, 0.3);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #666666;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="code-background" id="codeBackground"></div>
+
+    <div class="content-wrapper">
+        <header>
+            <div class="header-content">
+                <h1>Kuldeep Singh</h1>
+                <p class="subtitle">AI/ML Engineer • GenAI Specialist • Production ML Systems</p>
+                <p class="meta">2025 MCA, University of Rajasthan • 6 months ML internship • Building production-grade AI systems</p>
+                <div class="tags">
+                    <span class="tag">LLMs & RAG</span>
+                    <span class="tag">Multi-agent Systems</span>
+                    <span class="tag">Fine-tuning</span>
+                    <span class="tag">Production MLOps</span>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/Kuldeep007Singh" class="social-link">GitHub</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                    <a href="mailto:your-email@example.com" class="social-link">Email</a>
+                </div>
             </div>
-
-            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
-              {['LLMs & RAG', 'Multi-agent Systems', 'Fine-tuning', 'Production MLOps'].map(tag => (
-                <span key={tag} style={{
-                  padding: '0.5rem 1rem',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '2px',
-                  fontSize: '12px',
-                  color: '#ffffff',
-                  fontWeight: 500,
-                  letterSpacing: '0.5px'
-                }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
-              <a href="https://github.com/Kuldeep007Singh" style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#ffffff',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: 500,
-                transition: 'color 0.3s',
-                cursor: 'pointer'
-              }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
-                <Github size={18} /> GitHub
-              </a>
-              <a href="#" style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#ffffff',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: 500,
-                transition: 'color 0.3s',
-                cursor: 'pointer'
-              }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
-                <Linkedin size={18} /> LinkedIn
-              </a>
-              <a href="mailto:your-email@example.com" style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#ffffff',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: 500,
-                transition: 'color 0.3s',
-                cursor: 'pointer'
-              }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
-                <Mail size={18} /> Email
-              </a>
-            </div>
-          </div>
         </header>
 
-        {/* Navigation Tabs */}
-        <nav style={{
-          background: 'rgba(0, 0, 0, 0.8)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 20
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'flex', gap: '3rem' }}>
-            {['projects', 'skills', 'experience', 'about'].map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  borderBottom: activeTab === tab ? '2px solid #ffffff' : '2px solid transparent',
-                  padding: '1rem 0',
-                  fontSize: '13px',
-                  fontWeight: activeTab === tab ? 600 : 400,
-                  color: activeTab === tab ? '#ffffff' : '#666666',
-                  cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  transition: 'all 0.3s',
-                  textDecoration: 'none'
-                }}
-                onMouseEnter={(e) => !activeTab === tab && (e.target.style.color = '#ffffff')}
-                onMouseLeave={(e) => !activeTab === tab && (e.target.style.color = '#666666')}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+        <nav>
+            <div class="nav-content">
+                <button class="nav-button active" onclick="switchTab('projects')">Projects</button>
+                <button class="nav-button" onclick="switchTab('skills')">Skills</button>
+                <button class="nav-button" onclick="switchTab('experience')">Experience</button>
+                <button class="nav-button" onclick="switchTab('about')">About</button>
+            </div>
         </nav>
 
-        {/* Main Content */}
-        <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 2rem' }}>
-          {activeTab === 'projects' && (
-            <div>
-              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-1px' }}>
-                Featured Projects
-              </h2>
-              <p style={{ fontSize: '14px', color: '#888888', marginBottom: '2.5rem', letterSpacing: '0.5px' }}>
-                PRODUCTION-READY SYSTEMS SHOWCASING GENAI, RAG, AND FULL-STACK ML ENGINEERING
-              </p>
-
-              <div style={{ display: 'grid', gap: '2rem' }}>
-                {projects.map((project, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setExpandedProject(expandedProject === idx ? -1 : idx)}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.02)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderLeft: idx === 0 ? '3px solid rgba(0, 255, 0, 0.4)' : '3px solid rgba(255, 255, 255, 0.2)',
-                      borderRadius: '0px',
-                      padding: '2rem',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s',
-                      transform: expandedProject === idx ? 'translateY(-2px)' : 'translateY(0)',
-                      boxShadow: expandedProject === idx ? '0 0 30px rgba(255, 255, 255, 0.05)' : 'none'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                      <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                          <h3 style={{ fontSize: '20px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px', color: '#ffffff' }}>
-                            {project.title}
-                          </h3>
-                          {idx === 0 && <span style={{ fontSize: '11px', color: '#00ff00', fontWeight: 600, background: 'rgba(0, 255, 0, 0.1)', padding: '0.25rem 0.5rem', border: '1px solid rgba(0, 255, 0, 0.3)' }}>FLAGSHIP</span>}
-                        </div>
-                        <p style={{ fontSize: '13px', color: '#888888', margin: 0, letterSpacing: '0.5px' }}>
-                          {project.tagline.toUpperCase()}
-                        </p>
-                      </div>
-                      <div style={{
-                        fontSize: '20px',
-                        transition: 'transform 0.3s',
-                        transform: expandedProject === idx ? 'rotate(180deg)' : 'rotate(0)',
-                        color: '#666666'
-                      }}>
-                        ▼
-                      </div>
-                    </div>
-
-                    {expandedProject === idx && (
-                      <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                        <p style={{ fontSize: '14px', color: '#cccccc', lineHeight: '1.7', marginBottom: '1.5rem' }}>
-                          {project.description}
-                        </p>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-                          {project.stats.map((stat, i) => (
-                            <div key={i} style={{
-                              background: 'rgba(255, 255, 255, 0.03)',
-                              border: '1px solid rgba(255, 255, 255, 0.1)',
-                              padding: '1rem',
-                              borderRadius: '0px'
-                            }}>
-                              <div style={{ fontSize: '11px', color: '#666666', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                {stat.label}
-                              </div>
-                              <div style={{ fontSize: '15px', fontWeight: 600, color: '#00ff00' }}>
-                                {stat.value}
-                              </div>
+        <main>
+            <div id="projects-tab">
+                <h2>Featured Projects</h2>
+                <p class="section-desc">PRODUCTION-READY SYSTEMS SHOWCASING GENAI, RAG, AND FULL-STACK ML ENGINEERING</p>
+                <div class="projects-grid">
+                    <div class="project-card flagship" onclick="toggleProject(0)">
+                        <div class="project-header">
+                            <div>
+                                <div class="project-title-group">
+                                    <h3 class="project-title">DebateRAG</h3>
+                                    <span class="flagship-badge">FLAGSHIP</span>
+                                </div>
+                                <p class="project-tagline">Multi-agent LLM system with retrieval-augmented debate</p>
                             </div>
-                          ))}
+                            <div class="expand-icon" id="expand-0">▼</div>
                         </div>
-
-                        <div style={{ marginBottom: '1.5rem' }}>
-                          <p style={{ fontSize: '11px', color: '#666666', margin: '0 0 0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>
-                            Tech Stack
-                          </p>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                            {project.tech.map((tech, i) => (
-                              <span key={i} style={{
-                                background: 'rgba(255, 255, 255, 0.05)',
-                                color: '#ffffff',
-                                padding: '0.5rem 0.75rem',
-                                borderRadius: '0px',
-                                fontSize: '12px',
-                                fontWeight: 500,
-                                border: '1px solid rgba(255, 255, 255, 0.1)'
-                              }}>
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
+                        <div class="project-details" id="details-0">
+                            <p class="description">Production-grade debate system where LLaMA 3.3 70B agents argue opposing positions using hybrid retrieval (BM25 + semantic search), cross-encoder re-ranking, and LLM query rewriting. Judge agent evaluates arguments with confidence scores. Implements Redis caching for 300x speedup on repeat topics, async FastAPI backend, and real-time streaming Streamlit UI. Full ArXiv paper retrieval with semantic chunking and Wikipedia fallback.</p>
+                            <div class="stats-grid">
+                                <div class="stat-box"><div class="stat-label">LLM Model</div><div class="stat-value">LLaMA 3.3 70B</div></div>
+                                <div class="stat-box"><div class="stat-label">API Latency</div><div class="stat-value">100-200ms</div></div>
+                                <div class="stat-box"><div class="stat-label">Cache Speedup</div><div class="stat-value">300x</div></div>
+                            </div>
+                            <p class="tech-label">Tech Stack</p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">LangGraph</span><span class="tech-tag">Hybrid RAG</span><span class="tech-tag">ChromaDB</span><span class="tech-tag">BM25</span><span class="tech-tag">BGE Embeddings</span><span class="tech-tag">Cross-encoder</span><span class="tech-tag">Redis</span><span class="tech-tag">FastAPI</span><span class="tech-tag">Streamlit</span><span class="tech-tag">ArXiv API</span><span class="tech-tag">Async</span>
+                            </div>
+                            <div class="project-footer">
+                                <div class="highlight-box"><p class="highlight-text">✓ Full production pipeline end-to-end</p></div>
+                                <a href="https://github.com/Kuldeep007Singh/DebateRAG" class="github-link" target="_blank">VIEW GITHUB →</a>
+                            </div>
                         </div>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                          <div style={{
-                            padding: '0.75rem 1rem',
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                            borderRadius: '0px'
-                          }}>
-                            <p style={{ fontSize: '12px', color: '#ffffff', fontWeight: 500, margin: 0 }}>
-                              ✓ {project.highlight}
-                            </p>
-                          </div>
-                          <a href={project.github} style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            color: '#ffffff',
-                            textDecoration: 'none',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            transition: 'color 0.3s'
-                          }} onMouseEnter={(e) => e.target.style.color = '#00ff00'} onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
-                            VIEW GITHUB <ExternalLink size={14} />
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'skills' && (
-            <div>
-              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-1px' }}>
-                Technical Skills
-              </h2>
-              <p style={{ fontSize: '14px', color: '#888888', marginBottom: '2.5rem', letterSpacing: '0.5px' }}>
-                CORE COMPETENCIES ACROSS GENAI, ML ENGINEERING, AND PRODUCTION SYSTEMS
-              </p>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-                {skillCategories.map((skillGroup, idx) => {
-                  const Icon = skillGroup.icon;
-                  return (
-                    <div
-                      key={idx}
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.02)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: '0px',
-                        padding: '2rem',
-                        transition: 'all 0.3s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
-                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                        <Icon size={20} style={{ color: '#00ff00' }} />
-                        <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#ffffff', letterSpacing: '-0.5px' }}>
-                          {skillGroup.category}
-                        </h3>
-                      </div>
-                      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-                        {skillGroup.items.map((item, i) => (
-                          <li key={i} style={{
-                            fontSize: '13px',
-                            color: '#cccccc',
-                            marginBottom: '0.75rem',
-                            paddingLeft: '1.5rem',
-                            position: 'relative',
-                            display: 'flex',
-                            alignItems: 'center'
-                          }}>
-                            <span style={{ position: 'absolute', left: 0, color: '#666666', fontWeight: 700 }}>→</span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
 
-          {activeTab === 'experience' && (
-            <div>
-              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '-1px' }}>
-                Experience
-              </h2>
-              <p style={{ fontSize: '14px', color: '#888888', marginBottom: '2.5rem', letterSpacing: '0.5px' }}>
-                6 MONTHS OF HANDS-ON ML ENGINEERING IN PRODUCTION ENVIRONMENTS
-              </p>
+                    <div class="project-card" onclick="toggleProject(1)">
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">Legal Document Classifier</h3>
+                                <p class="project-tagline">Fine-tuned Legal-BERT for 7-class document classification</p>
+                            </div>
+                            <div class="expand-icon" id="expand-1">▼</div>
+                        </div>
+                        <div class="project-details" id="details-1">
+                            <p class="description">Legal-BERT fine-tuned on 35,000+ balanced samples across 7 LexGLUE datasets (SCOTUS rulings, EU regulations, contract clauses, human rights cases, terms of service). Achieves 85.03% accuracy and 84.66% macro F1. Handles domain-specific legal terminology with per-class F1 scores of 98-100% (5/7 classes). Deployed with Streamlit UI, FastAPI backend, production inference script, and Docker containerization.</p>
+                            <div class="stats-grid">
+                                <div class="stat-box"><div class="stat-label">Test Accuracy</div><div class="stat-value">85.03%</div></div>
+                                <div class="stat-box"><div class="stat-label">Macro F1</div><div class="stat-value">84.66%</div></div>
+                                <div class="stat-box"><div class="stat-label">Training Data</div><div class="stat-value">35K samples</div></div>
+                            </div>
+                            <p class="tech-label">Tech Stack</p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Legal-BERT</span><span class="tech-tag">HuggingFace</span><span class="tech-tag">PyTorch</span><span class="tech-tag">scikit-learn</span><span class="tech-tag">MLflow</span><span class="tech-tag">Streamlit</span><span class="tech-tag">FastAPI</span><span class="tech-tag">Docker</span>
+                            </div>
+                            <div class="project-footer">
+                                <div class="highlight-box"><p class="highlight-text">✓ 7 datasets, 5/7 classes at 98-100% F1</p></div>
+                                <a href="https://github.com/Kuldeep007Singh" class="github-link" target="_blank">VIEW GITHUB →</a>
+                            </div>
+                        </div>
+                    </div>
 
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '0px',
-                padding: '2rem'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-                  <div>
-                    <h3 style={{ fontSize: '20px', fontWeight: 700, margin: '0 0 0.5rem', color: '#ffffff', letterSpacing: '-0.5px' }}>
-                      AI/ML Engineer Internship
-                    </h3>
-                    <p style={{ fontSize: '14px', color: '#888888', margin: 0, letterSpacing: '0.5px' }}>
-                      MAXGEN TECHNOLOGIES
-                    </p>
-                  </div>
-                  <span style={{
-                    fontSize: '12px',
-                    color: '#666666',
-                    fontWeight: 600,
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '0px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    letterSpacing: '0.5px',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    6 MONTHS
-                  </span>
+                    <div class="project-card" onclick="toggleProject(2)">
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">AI Resume Analyzer</h3>
+                                <p class="project-tagline">Semantic resume-to-JD matching with FAISS</p>
+                            </div>
+                            <div class="expand-icon" id="expand-2">▼</div>
+                        </div>
+                        <div class="project-details" id="details-2">
+                            <p class="description">Deployed on Hugging Face Spaces with Docker containerization. Uses Sentence Transformers for semantic embeddings and FAISS for efficient similarity search. Implements 5-factor weighted scoring formula to match resumes against job descriptions. Live, production-ready inference endpoint.</p>
+                            <div class="stats-grid">
+                                <div class="stat-box"><div class="stat-label">Deployment</div><div class="stat-value">HF Spaces</div></div>
+                                <div class="stat-box"><div class="stat-label">Search</div><div class="stat-value">FAISS</div></div>
+                                <div class="stat-box"><div class="stat-label">Framework</div><div class="stat-value">Streamlit</div></div>
+                            </div>
+                            <p class="tech-label">Tech Stack</p>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Sentence Transformers</span><span class="tech-tag">FAISS</span><span class="tech-tag">Docker</span><span class="tech-tag">HuggingFace</span><span class="tech-tag">Streamlit</span>
+                            </div>
+                            <div class="project-footer">
+                                <div class="highlight-box"><p class="highlight-text">✓ Live deployment, containerized</p></div>
+                                <a href="https://github.com/Kuldeep007Singh" class="github-link" target="_blank">VIEW GITHUB →</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-                  {['Built and deployed ML models in production environments', 'Worked on GenAI and LLM-based solutions', 'Collaborated on end-to-end ML pipelines'].map((highlight, i) => (
-                    <li key={i} style={{
-                      fontSize: '13px',
-                      color: '#cccccc',
-                      marginBottom: '0.75rem',
-                      paddingLeft: '1.5rem',
-                      position: 'relative'
-                    }}>
-                      <span style={{ position: 'absolute', left: 0, color: '#666666', fontWeight: 700 }}>✓</span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
-          )}
 
-          {activeTab === 'about' && (
-            <div>
-              <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '2rem', letterSpacing: '-1px' }}>
-                About
-              </h2>
-
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '0px',
-                padding: '2rem',
-                marginBottom: '2rem'
-              }}>
-                <p style={{ fontSize: '14px', color: '#cccccc', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                  I'm a fresher AI/ML engineer with a passion for building production systems that solve real problems. My background spans large language models, retrieval-augmented generation, multi-agent systems, and the full MLOps lifecycle. I've translated coursework into end-to-end deployed projects, with a particular focus on GenAI engineering and production-grade RAG systems.
-                </p>
-
-                <p style={{ fontSize: '14px', color: '#cccccc', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                  I approach problems intuitively and value unfiltered feedback over reassurance—I learn best by building and shipping. Currently seeking roles as an AI/ML Engineer or GenAI Engineer at forward-thinking startups, scale-ups, and MNCs across India.
-                </p>
-
-                <p style={{ fontSize: '14px', color: '#888888', lineHeight: '1.8' }}>
-                  Outside of tech, I'm working on a fantasy novel exploring worldbuilding and narrative complexity—a hobby that sharpens my thinking around systems design and long-form structure.
-                </p>
-              </div>
-
-              <div style={{
-                padding: '1.5rem',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '0px',
-                borderLeft: '2px solid rgba(0, 255, 0, 0.3)'
-              }}>
-                <p style={{ fontSize: '13px', color: '#cccccc', margin: 0, lineHeight: '1.6', letterSpacing: '0.5px' }}>
-                  <strong>Currently preparing for:</strong> Infosys Off-Campus Drive assessments. Looking to land my first full-time role in GenAI and move fast on real-world problems.
-                </p>
-              </div>
+            <div id="skills-tab" class="hidden">
+                <h2>Technical Skills</h2>
+                <p class="section-desc">CORE COMPETENCIES ACROSS GENAI, ML ENGINEERING, AND PRODUCTION SYSTEMS</p>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3 class="skill-title">GenAI & LLMs</h3>
+                        <ul class="skill-list">
+                            <li class="skill-item">LLMs (LLaMA, GPT)</li>
+                            <li class="skill-item">RAG & Hybrid Retrieval</li>
+                            <li class="skill-item">Multi-agent Systems</li>
+                            <li class="skill-item">LangGraph</li>
+                            <li class="skill-item">Prompt Engineering</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="skill-title">ML Engineering</h3>
+                        <ul class="skill-list">
+                            <li class="skill-item">Fine-tuning Transformers</li>
+                            <li class="skill-item">BERT & Legal-BERT</li>
+                            <li class="skill-item">Transfer Learning</li>
+                            <li class="skill-item">MLOps (MLflow)</li>
+                            <li class="skill-item">Model Versioning</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="skill-title">Data & Search</h3>
+                        <ul class="skill-list">
+                            <li class="skill-item">ChromaDB & Vector DBs</li>
+                            <li class="skill-item">FAISS</li>
+                            <li class="skill-item">BM25 Retrieval</li>
+                            <li class="skill-item">SQL</li>
+                            <li class="skill-item">Data Pipelines</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="skill-title">Production Systems</h3>
+                        <ul class="skill-list">
+                            <li class="skill-item">FastAPI</li>
+                            <li class="skill-item">LangGraph</li>
+                            <li class="skill-item">Streamlit</li>
+                            <li class="skill-item">Docker</li>
+                            <li class="skill-item">Redis Caching</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          )}
+
+            <div id="experience-tab" class="hidden">
+                <h2>Experience</h2>
+                <p class="section-desc">6 MONTHS OF HANDS-ON ML ENGINEERING IN PRODUCTION ENVIRONMENTS</p>
+                <div class="experience-card">
+                    <h3 class="project-title">AI/ML Engineer Internship</h3>
+                    <p class="meta">MAXGEN TECHNOLOGIES • 6 MONTHS</p>
+                    <ul class="skill-list">
+                        <li class="skill-item">Built and deployed ML models in production environments</li>
+                        <li class="skill-item">Worked on GenAI and LLM-based solutions</li>
+                        <li class="skill-item">Collaborated on end-to-end ML pipelines</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="about-tab" class="hidden">
+                <h2>About</h2>
+                <div class="about-content">
+                    <p class="about-text">I'm a fresher AI/ML engineer with a passion for building production systems that solve real problems. My background spans large language models, retrieval-augmented generation, multi-agent systems, and the full MLOps lifecycle. I've translated coursework into end-to-end deployed projects, with a particular focus on GenAI engineering and production-grade RAG systems.</p>
+                    <p class="about-text">I approach problems intuitively and value unfiltered feedback over reassurance—I learn best by building and shipping. Currently seeking roles as an AI/ML Engineer or GenAI Engineer at forward-thinking startups, scale-ups, and MNCs across India.</p>
+                    <p class="about-text">Outside of tech, I'm working on a fantasy novel exploring worldbuilding and narrative complexity—a hobby that sharpens my thinking around systems design and long-form structure.</p>
+                </div>
+                <div class="callout-box">
+                    <p><strong>Currently preparing for:</strong> Infosys Off-Campus Drive assessments. Looking to land my first full-time role in GenAI and move fast on real-world problems.</p>
+                </div>
+            </div>
         </main>
 
-        {/* Footer */}
-        <footer style={{
-          background: 'rgba(0, 0, 0, 0.8)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          padding: '2rem',
-          textAlign: 'center',
-          marginTop: '4rem',
-          backdropFilter: 'blur(10px)'
-        }}>
-          <p style={{ fontSize: '12px', color: '#666666', margin: 0, letterSpacing: '0.5px' }}>
-            BASED IN AHMEDABAD, GUJARAT • OPEN TO OPPORTUNITIES ACROSS INDIA • 2025 MCA GRADUATE
-          </p>
+        <footer>
+            <p class="footer-text">BASED IN AHMEDABAD, GUJARAT • OPEN TO OPPORTUNITIES ACROSS INDIA • 2025 MCA GRADUATE</p>
         </footer>
-      </div>
     </div>
-  );
-}< ! - -   f o r c e   r e d e p l o y   - - >  
- 
+
+    <script>
+        function generateCodeBackground() {
+            const chars = '01 ';
+            let pattern = '';
+            for (let i = 0; i < 5000; i++) {
+                pattern += chars[Math.floor(Math.random() * chars.length)];
+            }
+            document.getElementById('codeBackground').textContent = pattern;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('main > div').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function toggleProject(index) {
+            const details = document.getElementById(`details-${index}`);
+            const icon = document.getElementById(`expand-${index}`);
+            details.classList.toggle('visible');
+            icon.style.transform = details.classList.contains('visible') ? 'rotate(180deg)' : 'rotate(0)';
+        }
+
+        generateCodeBackground();
+    </script>
+</body>
+</html>
